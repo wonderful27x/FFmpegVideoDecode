@@ -267,8 +267,10 @@ void Java_com_example_ffmpegva_WonderfulPlayer_playVideo(JNIEnv *env,jobject thi
 //        frame->linesize[2] = 0;
 
 //向蓝色偏移，实测有点奇怪,按我的理解应该是需要乘以232，因为有232行，但实际上232已经偏移到红色区域了
-//正确的理解：yuv420(4:2:0)编码中，每4个y对应一组uv进行采样,如果每个分量都用一个字节表示，那么y=(frame->width*frame->height*3)>>1字节
-//u和v都等于(frame->width*frame->height)>>2字节，y:u:v=4:1:1
+//正确的理解：yuv420(4:2:0)编码中，每4个y对应一组uv进行采样,如果每个分量都用一个字节表示，那么
+//y=(frame->width*frame->height) 字节
+//u=v=(frame->width*frame->height/4) 字节
+//frame=(frame->width*frame->height/4*6) 字节
 //而不同的存储方式又形成了不同的格式，如y u v三个分量分别存储的统称为yuv420p（包括yv12、yu12）
 //y和uv分别存储的统称为yuv420sp（包括nv12、nv21），但是请注意他们都属于yuv格式范畴
 //todo link https://mp.weixin.qq.com/s?__biz=MzAwODM5OTM2Ng==&idx=1&mid=2454862932&sn=245212b661fe8565ad002c93642b1127
